@@ -1,5 +1,4 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "5.1.0"
     id 'java'
     id 'idea'
 }
@@ -12,10 +11,15 @@ repositories {
     mavenCentral()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     maven { url "https://papermc.io/repo/repository/maven-public/" }
+    maven { url 'https://ci.ender.zone/plugin/repository/everything/' }
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots' }
 }
 
 dependencies {
     compileOnly "com.destroystokyo.paper:paper-api:1.14.4-R0.1-SNAPSHOT"
+    compileOnly "net.ess3:EssentialsX:2.17.0"
+    compileOnly files('libs/stonks.jar')
+    compileOnly "com.j256.ormlite:ormlite-core:5.1" //Stonks depend
 }
 
 compileJava.options.encoding = 'UTF-8'
