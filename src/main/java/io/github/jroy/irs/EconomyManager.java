@@ -29,13 +29,17 @@ public class EconomyManager implements Listener {
     }
 
     BigDecimal difference = event.getNewBalance().subtract(event.getOldBalance());
+    if (difference.intValue() < 10000) { //Don't tax transactions under 10k
+      return event.getNewBalance();
+    }
+
     if (event.getOldBalance().intValue() > 1000000) { //Receiving party has over a 1M
       if (event.getPlayer().isOnline()) {
         event.getPlayer().sendMessage(ChatColor.AQUA + "IRS>> " + ChatColor.YELLOW + "You've been taxed 10% of your incoming $" + difference.intValue() + " ($" + difference.multiply(incomingTaxRate).intValue() + ")");
       }
       depositTaxAccount(difference.multiply(incomingTaxRate).intValue());
       return event.getNewBalance().subtract(difference.multiply(incomingTaxRate).round(new MathContext(1)));
-    } else if (event.getNewBalance().intValue() > 100000) { //Receiving party is getting over 100k
+    } else if (difference.intValue() > 100000) { //Receiving party is getting over 100k
       if (event.getPlayer().isOnline()) {
         event.getPlayer().sendMessage(ChatColor.AQUA + "IRS>> " + ChatColor.YELLOW + "You've been taxed 7% of your incoming $" + difference.intValue() + " ($" + difference.multiply(outgoingTaxRate).intValue() + ")");
       }
