@@ -24,7 +24,7 @@ public class EconomyManager implements Listener {
   }
 
   private BigDecimal processTransaction(UserBalanceUpdateEvent event) {
-    if (event.getPlayer().hasPermission("trevor.taxexempt") || event.getNewBalance().intValue() < event.getOldBalance().intValue()) { //Not an incoming payment
+    if (event.getPlayer().hasPermission("irs.taxexempt") || event.getNewBalance().intValue() < event.getOldBalance().intValue()) { //Not an incoming payment
       return event.getNewBalance();
     }
 
