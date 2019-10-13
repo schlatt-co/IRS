@@ -3,4 +3,4 @@ author: JRoy
 version: 1.0
 api-version: 1.14
 main: io.github.jroy.irs.IRS
-depend: [Essentials]
+depend: [Essentials, Stonks]
