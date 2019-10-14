@@ -17,8 +17,8 @@ import java.util.Optional;
 
 public class EconomyManager implements Listener {
 
-  private static final BigDecimal incomingTaxRate = new BigDecimal(0.10);
-  private static final BigDecimal outgoingTaxRate = new BigDecimal(0.07);
+  private static final BigDecimal incomingTaxRate = new BigDecimal(0.06);
+  private static final BigDecimal outgoingTaxRate = new BigDecimal(0.04);
 
   @EventHandler
   public void onBalanceUpdate(UserBalanceUpdateEvent event) {
