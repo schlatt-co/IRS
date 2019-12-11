@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly "com.destroystokyo.paper:paper-api:1.14.4-R0.1-SNAPSHOT"
+    compileOnly "org.spigotmc:spigot-api:1.15-R0.1-SNAPSHOT"
     compileOnly "net.ess3:EssentialsX:2.17.0"
     compileOnly files('libs/stonks.jar')
     compileOnly "com.j256.ormlite:ormlite-core:5.1" //Stonks depend
