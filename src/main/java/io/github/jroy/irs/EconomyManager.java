@@ -1,11 +1,9 @@
 package io.github.jroy.irs;
 
-import dev.tycho.stonks.managers.DatabaseHelper;
+import dev.tycho.stonks.managers.Repo;
 import dev.tycho.stonks.model.core.Account;
-import dev.tycho.stonks.model.core.AccountLink;
-import dev.tycho.stonks.model.logging.Transaction;
+import dev.tycho.stonks.model.core.Company;
 import net.ess3.api.events.UserBalanceUpdateEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +11,6 @@ import org.bukkit.event.Listener;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.Optional;
 
 public class EconomyManager implements Listener {
 
@@ -53,15 +50,13 @@ public class EconomyManager implements Listener {
   }
 
   private void depositTaxAccount(Player player, double amount) {
-    Optional<AccountLink> optional = DatabaseHelper.getInstance().getCompanyByName("Admins").getAccounts().stream().filter(accountLink -> accountLink.getAccount().getName().equalsIgnoreCase("Taxes")).findAny();
-    if (optional.isPresent()) {
-      AccountLink accountLink = optional.get();
-      Account account = accountLink.getAccount();
-      account.addBalance(amount);
-      DatabaseHelper.getInstance().getDatabaseManager().updateAccount(account);
-      DatabaseHelper.getInstance().getDatabaseManager().logTransaction(new Transaction(accountLink, player.getUniqueId(), "Incoming Transaction Tax of " + player.getName(), amount));
-      return;
+    //Find a company for the admins
+    Company c = Repo.getInstance().companies().getWhere(co->co.name.equals("Admins"));
+    if (c == null) return;
+    Account account = c.accounts.stream().filter(a -> a.name.equals("Taxes")).findFirst().orElse(null);
+    if (account == null) {
+      account = Repo.getInstance().createCompanyAccount(c, "Taxes");
     }
-    Bukkit.getLogger().severe("Tax account optional is not present!");
+    Repo.getInstance().payAccount(player.getUniqueId(), "Taxes payment", account, amount);
   }
 }
