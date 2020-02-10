@@ -27,6 +27,10 @@ public class EconomyManager implements Listener {
       return event.getNewBalance();
     }
 
+    if (event.getCause() == UserBalanceUpdateEvent.Cause.SPECIAL || event.getCause() == UserBalanceUpdateEvent.Cause.COMMAND_PAY) {
+      return event.getNewBalance();
+    }
+
     BigDecimal difference = event.getNewBalance().subtract(event.getOldBalance());
     if (difference.intValue() < 10000) { //Don't tax transactions under 10k
       return event.getNewBalance();
