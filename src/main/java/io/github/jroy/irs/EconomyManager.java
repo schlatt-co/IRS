@@ -14,8 +14,8 @@ import java.math.MathContext;
 
 public class EconomyManager implements Listener {
 
-  private static final BigDecimal incomingTaxRate = new BigDecimal(0.06);
-  private static final BigDecimal outgoingTaxRate = new BigDecimal(0.04);
+  private static final BigDecimal incomingTaxRate = new BigDecimal("0.07");
+  private static final BigDecimal outgoingTaxRate = new BigDecimal("0.05");
 
   @EventHandler
   public void onBalanceUpdate(UserBalanceUpdateEvent event) {
@@ -36,15 +36,15 @@ public class EconomyManager implements Listener {
       return event.getNewBalance();
     }
 
-    if (event.getOldBalance().intValue() > 1000000) { //Receiving party has over a 1M
+    if (event.getOldBalance().intValue() > 500000) { //Receiving party has over a 500k
       if (event.getPlayer().isOnline()) {
-        event.getPlayer().sendMessage(ChatColor.AQUA + "IRS>> " + ChatColor.YELLOW + "You've been taxed 10% of your incoming $" + difference.intValue() + " ($" + difference.multiply(incomingTaxRate).intValue() + ")");
+        event.getPlayer().sendMessage(ChatColor.AQUA + "IRS>> " + ChatColor.YELLOW + "You've been taxed 7% of your incoming $" + difference.intValue() + " ($" + difference.multiply(incomingTaxRate).intValue() + ")");
       }
       depositTaxAccount(event.getPlayer(), difference.multiply(incomingTaxRate).intValue());
       return event.getNewBalance().subtract(difference.multiply(incomingTaxRate).round(new MathContext(1)));
     } else if (difference.intValue() > 100000) { //Receiving party is getting over 100k
       if (event.getPlayer().isOnline()) {
-        event.getPlayer().sendMessage(ChatColor.AQUA + "IRS>> " + ChatColor.YELLOW + "You've been taxed 7% of your incoming $" + difference.intValue() + " ($" + difference.multiply(outgoingTaxRate).intValue() + ")");
+        event.getPlayer().sendMessage(ChatColor.AQUA + "IRS>> " + ChatColor.YELLOW + "You've been taxed 5% of your incoming $" + difference.intValue() + " ($" + difference.multiply(outgoingTaxRate).intValue() + ")");
       }
       depositTaxAccount(event.getPlayer(), difference.multiply(outgoingTaxRate).intValue());
       return event.getNewBalance().subtract(difference.multiply(outgoingTaxRate).round(new MathContext(1)));
