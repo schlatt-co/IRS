@@ -2,7 +2,6 @@ package io.github.jroy.irs;
 
 import dev.tycho.stonks.api.StonksAPI;
 import dev.tycho.stonks.api.StonksAPIException;
-import dev.tycho.stonks.managers.Repo;
 import net.ess3.api.events.UserBalanceUpdateEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -55,10 +54,7 @@ public class EconomyManager implements Listener {
 
   private void depositTaxAccount(Player player, double amount) {
     try {
-      Repo.getInstance().payAccount(player.getUniqueId(),
-          "Taxes payment",
-          StonksAPI.getOrCreateAccount(StonksAPI.getAdminCompany(),"Taxes"),
-          amount);
+      StonksAPI.payAccount(StonksAPI.getOrCreateAccount(StonksAPI.getAdminCompany(), "Taxes"), player.getUniqueId(), amount, "Taxes payment");
     } catch (StonksAPIException e) {
       player.sendMessage("Error while paying taxes: " + e.getMessage());
       e.printStackTrace();
